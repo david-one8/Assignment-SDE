@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}User #{{ user["id"] }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">User Details</h2>
+
+<div class="card" style="max-width: 500px;">
+    <div class="card-body">
+        <h5 class="card-title">{{ user["name"] }}</h5>
+        <ul class="list-group list-group-flush mt-3">
+            <li class="list-group-item"><strong>ID:</strong> {{ user["id"] }}</li>
+            <li class="list-group-item"><strong>Name:</strong> {{ user["name"] }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ user["email"] }}</li>
+            <li class="list-group-item"><strong>Role:</strong> {{ user["role"] }}</li>
+        </ul>
+    </div>
+</div>
+
+<a href="{{ url_for('users') }}" class="btn btn-secondary mt-3">&larr; Back to Users</a>
+{% endblock %}
