@@ -16,9 +16,7 @@ def init_db():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-    # ------------------------------------------------------------------
     # SQL Query: Create the "users" table
-    # ------------------------------------------------------------------
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id    INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,16 +26,14 @@ def init_db():
         );
     """)
 
-    # ------------------------------------------------------------------
     # SQL Query: Insert sample data into the "users" table
-    # ------------------------------------------------------------------
     sample_users = [
-        ("Alice Johnson", "alice@example.com", "Developer"),
-        ("Bob Smith", "bob@example.com", "Designer"),
-        ("Charlie Brown", "charlie@example.com", "Manager"),
-        ("Diana Prince", "diana@example.com", "Developer"),
-        ("Eve Davis", "eve@example.com", "Tester"),
-    ]
+    ("Devendra", "devendra@example.com", "Developer"),
+    ("Aman", "aman@example.com", "Designer"),
+    ("Tarun", "tarun@example.com", "Manager"),
+    ("Toshan", "toshan@example.com", "Developer"),
+    ("Om", "om@example.com", "Tester"),
+]
 
     cursor.executemany(
         "INSERT INTO users (name, email, role) VALUES (?, ?, ?);",

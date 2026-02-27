@@ -9,9 +9,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"
 
-# ---------------------------------------------------------------------------
 # Database helper
-# ---------------------------------------------------------------------------
 DATABASE = "users.db"
 
 
@@ -22,9 +20,7 @@ def get_db_connection():
     return conn
 
 
-# ---------------------------------------------------------------------------
 # Routes
-# ---------------------------------------------------------------------------
 
 
 @app.route("/")
@@ -91,9 +87,7 @@ def new_user():
     return render_template("new_user.html")
 
 
-# ---------------------------------------------------------------------------
-# Error handlers
-# ---------------------------------------------------------------------------
+# Error handlers-
 
 
 @app.errorhandler(404)
@@ -108,9 +102,7 @@ def internal_server_error(e):
     return render_template("404.html", message="An internal server error occurred."), 500
 
 
-# ---------------------------------------------------------------------------
 # Run the application
-# ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(debug=True)
