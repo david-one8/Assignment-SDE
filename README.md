@@ -24,6 +24,7 @@ Data is stored in an **SQLite** database — no MySQL installation required!
 - [Prerequisites](#-prerequisites)
 - [Setup & Installation](#-setup--installation)
 - [Running the Application](#-running-the-application)
+- [Deployment (Render)](#-deployment-render)
 - [Application Routes](#-application-routes)
 - [Database Schema](#-database-schema)
 - [SQL Queries (Task 2)](#-sql-queries-task-2)
@@ -73,12 +74,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**4. Initialize the database with sample data**
+**4. Run the application**
 ```bash
-python init_db.py
+python app.py
 ```
 
-> After this step, a file called `users.db` will appear — that's your SQLite database with 5 sample users.
+> [!TIP]
+> The database (`users.db`) is **automatically created** with 5 sample users when you start the app for the first time. No need to run `init_db.py` manually!
 
 ---
 
@@ -95,6 +97,34 @@ http://127.0.0.1:5000/
 ```
 
 🎉 **That's it — the app is running!**
+
+---
+
+## ☁️ Deployment (Render)
+
+This app is configured for easy deployment on [Render](https://render.com).
+
+### Deploy to Render
+
+1. Push your code to GitHub
+2. Go to [render.com](https://render.com) and create a new **Web Service**
+3. Connect your GitHub repository
+4. Configure the service:
+
+| Setting | Value |
+|:--------|:------|
+| **Build Command** | `pip install -r requirements.txt` |
+| **Start Command** | `gunicorn app:app` |
+| **Environment** | Python 3 |
+
+5. Click **Deploy**
+
+> [!NOTE]
+> The database auto-initializes on startup. However, Render's free tier has **ephemeral storage** — data added at runtime may be lost on restart. For persistent data, consider using Render's PostgreSQL.
+
+### Live Demo
+
+🔗 **[https://assignment-sde.onrender.com](https://assignment-sde.onrender.com)**
 
 ---
 
@@ -272,7 +302,9 @@ Contributions are welcome! Here's how:
 |:------|:--------|
 | **SQLite vs MySQL** | This project uses SQLite for zero-install simplicity. To switch to MySQL, install `mysql-connector-python`, update `get_db_connection()` in `app.py`, and change `?` placeholders to `%s`. |
 | **Styling** | Bootstrap 5 is loaded via CDN — no local CSS files needed. |
-| **Debug Mode** | Enabled by default (`app.run(debug=True)`). Disable it in production. |
+| **Auto-Init Database** | The app automatically creates the database and sample users on first run — no manual setup needed. |
+| **Production Server** | Uses `gunicorn` for production deployment. Locally, Flask's dev server is used. |
+| **Debug Mode** | Disabled in production. Set `debug=True` in `app.py` for local development if needed. |
 
 ---
 
