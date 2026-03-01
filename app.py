@@ -4,6 +4,7 @@ This application provides routes to manage users stored in a SQLite database.
 """
 
 import sqlite3
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
@@ -18,6 +19,47 @@ def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row  # So we can access columns by name
     return conn
+
+
+def init_db():
+    """Initialize the database if it doesn't exist."""
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    
+    # Create table if not exists
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id    INTEGER PRIMARY KEY AUTOINCREMENT,
+            name  VARCHAR(100) NOT NULL,
+            email VARCHAR(100) NOT NULL,
+            role  VARCHAR(50)  NOT NULL
+        );
+    """)
+    
+    # Check if table is empty, then add sample data
+    cursor.execute("SELECT COUNT(*) FROM users")
+    count = cursor.fetchone()[0]
+    
+    if count == 0:
+        sample_users = [
+            ("Devendra", "devendra@example.com", "Developer"),
+            ("Aman", "aman@example.com", "Designer"),
+            ("Tarun", "tarun@example.com", "Manager"),
+            ("Toshan", "toshan@example.com", "Developer"),
+            ("Om", "om@example.com", "Tester"),
+        ]
+        cursor.executemany(
+            "INSERT INTO users (name, email, role) VALUES (?, ?, ?);",
+            sample_users,
+        )
+        print("Database initialized with sample users.")
+    
+    conn.commit()
+    conn.close()
+
+
+# Initialize database on startup
+init_db()
 
 
 # Routes
